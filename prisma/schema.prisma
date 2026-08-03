@@ -1,0 +1,135 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model User {
+  id             String   @id @default(uuid()) @db.Uuid
+  email          String   @unique
+  name           String?
+  username       String   @unique
+  avatarUrl      String?
+  bio            String?
+  coins          Int      @default(0)
+  lastCheckIn    DateTime?
+  checkInStreak  Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  datasets         Dataset[]
+  comments         Comment[]
+  votes            Vote[]
+  coinTransactions CoinTransaction[]
+  redemptions      Redemption[]
+
+  @@map("users")
+}
+
+model Dataset {
+  id            String    @id @default(uuid()) @db.Uuid
+  ownerId       String    @db.Uuid
+  title         String
+  slug          String    @unique
+  description   String
+  category      String
+  tags          String[]
+  license       String?
+  fileUrl       String?
+  fileSize      BigInt?
+  fileType      String?
+  downloadCount Int       @default(0)
+  viewCount     Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  owner         User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  files         DatasetFile[]
+  comments      Comment[]
+  votes         Vote[]
+  downloads     Download[]
+
+  fts           Unsupported("tsvector")?
+
+  @@index([fts], type: Gin)
+  @@map("datasets")
+}
+
+model DatasetFile {
+  id        String   @id @default(uuid()) @db.Uuid
+  datasetId String   @db.Uuid
+  fileName  String
+  filePath  String
+  fileSize  BigInt
+  
+  dataset   Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  @@map("dataset_files")
+}
+
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  datasetId String   @db.Uuid
+  userId    String   @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+
+  dataset   Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Vote {
+  id        String   @id @default(uuid()) @db.Uuid
+  datasetId String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  dataset   Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([datasetId, userId])
+  @@map("votes")
+}
+
+model Download {
+  id           String   @id @default(uuid()) @db.Uuid
+  datasetId    String   @db.Uuid
+  userId       String?  @db.Uuid
+  downloadedAt DateTime @default(now())
+
+  dataset      Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  @@map("downloads")
+}
+
+model CoinTransaction {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @db.Uuid
+  amount      Int
+  type        String   // UPLOAD, CHECKIN, REDEMPTION
+  description String
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("coin_transactions")
+}
+
+model Redemption {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  rewardId   String
+  rewardName String
+  coinsSpent Int
+  status     String   @default("completed") // completed, pending, processing
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("redemptions")
+}
