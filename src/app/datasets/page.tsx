@@ -116,13 +116,13 @@ export default async function DatasetsPage({
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-slate-200 font-sans selection:bg-cyan-500/30 pb-20">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-saffron-500/20 pb-20">
       {/* Header Search */}
-      <div className="bg-[#0d0d14] border-b border-white/5 py-8 sticky top-0 z-20 backdrop-blur-md bg-[#0d0d14]/80">
+      <div className="bg-white border-b border-slate-200 py-6 sticky top-16 z-20 backdrop-blur-md bg-white/90 shadow-sm">
         <div className="container mx-auto px-6 max-w-7xl">
           <form action="/datasets" method="GET" className="relative max-w-4xl">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -131,7 +131,7 @@ export default async function DatasetsPage({
               name="q"
               defaultValue={query}
               placeholder="Search datasets..."
-              className="w-full py-3.5 pl-12 pr-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
+              className="w-full py-3.5 pl-12 pr-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-saffron-500/50 focus:border-saffron-500 transition-all"
             />
             {currentCategory && <input type="hidden" name="category" value={currentCategory} />}
             {currentSort && currentSort !== 'newest' && <input type="hidden" name="sort" value={currentSort} />}
@@ -145,14 +145,14 @@ export default async function DatasetsPage({
           
           {/* Sidebar Filters */}
           <aside className="w-full lg:w-64 shrink-0">
-            <div className="sticky top-32 space-y-8">
+            <div className="sticky top-36 space-y-8">
               {/* Categories */}
               <div>
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Categories</h3>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Categories</h3>
                 <div className="flex flex-wrap gap-2 lg:flex-col">
                   <Link 
                     href={`/datasets?q=${query}&sort=${currentSort}&type=${currentType}`}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${!currentCategory ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'}`}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${!currentCategory ? 'bg-saffron-50 text-saffron-700 border border-saffron-200 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'}`}
                   >
                     All Categories
                   </Link>
@@ -163,7 +163,7 @@ export default async function DatasetsPage({
                       <Link 
                         key={cat}
                         href={`/datasets?q=${query}&category=${slug}&sort=${currentSort}&type=${currentType}`}
-                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'}`}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-saffron-50 text-saffron-700 border border-saffron-200 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent'}`}
                       >
                         {cat}
                       </Link>
@@ -174,7 +174,7 @@ export default async function DatasetsPage({
 
               {/* File Types */}
               <div>
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">File Type</h3>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">File Type</h3>
                 <div className="flex flex-wrap gap-2">
                   {fileTypes.map(type => {
                     const slug = type.toLowerCase();
@@ -183,7 +183,7 @@ export default async function DatasetsPage({
                       <Link 
                         key={type}
                         href={isActive ? `/datasets?q=${query}&category=${currentCategory}&sort=${currentSort}` : `/datasets?q=${query}&category=${currentCategory}&sort=${currentSort}&type=${slug}`}
-                        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${isActive ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/10 hover:text-white'}`}
+                        className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors border ${isActive ? 'bg-saffron-500 text-white border-saffron-500 shadow-xs' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'}`}
                       >
                         {type}
                       </Link>
@@ -197,21 +197,21 @@ export default async function DatasetsPage({
           {/* Main Results Area */}
           <main className="flex-1">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-              <p className="text-slate-400 font-medium">
-                Showing <span className="text-white">{total}</span> dataset{total !== 1 ? 's' : ''} {query && <>for <span className="text-white">&quot;{query}&quot;</span></>}
+              <p className="text-slate-600 font-medium">
+                Showing <span className="text-slate-900 font-bold">{total}</span> dataset{total !== 1 ? 's' : ''} {query && <>for <span className="text-slate-900 font-bold">&quot;{query}&quot;</span></>}
               </p>
               
               {/* Sort Options */}
               <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-500 mr-2">Sort by:</span>
-                <div className="flex flex-wrap gap-2">
+                <span className="text-xs text-slate-500 mr-1 uppercase font-semibold">Sort by:</span>
+                <div className="flex flex-wrap gap-1.5">
                   {sortOptions.map(sort => {
                     const isActive = currentSort === sort.slug;
                     return (
                       <Link
                         key={sort.slug}
                         href={`/datasets?q=${query}&category=${currentCategory}&type=${currentType}&sort=${sort.slug}`}
-                        className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${isActive ? 'border-white/20 bg-white/10 text-white' : 'border-transparent text-slate-400 hover:bg-white/5'}`}
+                        className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors ${isActive ? 'border-saffron-300 bg-saffron-50 text-saffron-700 font-semibold' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100'}`}
                       >
                         {sort.label}
                       </Link>
@@ -225,53 +225,53 @@ export default async function DatasetsPage({
             {datasets.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {datasets.map((dataset) => (
-                  <Link key={dataset.id} href={`/datasets/${dataset.slug}`} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10 group cursor-pointer flex flex-col">
+                  <Link key={dataset.id} href={`/datasets/${dataset.slug}`} className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-saffron-300 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-saffron-500/10 group cursor-pointer flex flex-col shadow-xs">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-1 bg-white/10 rounded-md text-[10px] font-bold text-cyan-300 uppercase tracking-wider">{dataset.fileType || 'FILE'}</span>
+                        <span className="px-2.5 py-1 bg-saffron-100 border border-saffron-200 rounded-md text-[10px] font-bold text-saffron-800 uppercase tracking-wider">{dataset.fileType || 'FILE'}</span>
                       </div>
-                      <div className="flex items-center gap-3 text-slate-400 text-xs font-medium">
+                      <div className="flex items-center gap-3 text-slate-500 text-xs font-medium">
                         <span className="flex items-center gap-1" title="Upvotes">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+                          <svg className="w-3.5 h-3.5 text-saffron-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
                           {dataset._count.votes}
                         </span>
                         <span className="flex items-center gap-1" title="Downloads">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                          <svg className="w-3.5 h-3.5 text-saffron-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                           {formatNumber(dataset.downloadCount)}
                         </span>
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">{dataset.title}</h3>
-                    <p className="text-slate-400 text-sm mb-5 line-clamp-3 flex-1">{dataset.description}</p>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-saffron-600 transition-colors line-clamp-2 leading-tight">{dataset.title}</h3>
+                    <p className="text-slate-600 text-sm mb-5 line-clamp-3 flex-1">{dataset.description}</p>
                     
-                    <div className="flex flex-wrap gap-2 mb-5">
+                    <div className="flex flex-wrap gap-1.5 mb-5">
                       {dataset.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="px-2 py-0.5 bg-white/5 border border-white/10 rounded-md text-[10px] font-medium text-slate-300">
+                        <span key={tag} className="px-2 py-0.5 bg-slate-100 border border-slate-200 rounded-md text-[10px] font-medium text-slate-600">
                           {tag}
                         </span>
                       ))}
                     </div>
                     
-                    <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-auto">
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center text-[9px] font-bold text-white">
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-saffron-400 to-orange-500 flex items-center justify-center text-[9px] font-bold text-white shadow-xs">
                           {dataset.owner.username[0].toUpperCase()}
                         </div>
-                        <span className="text-xs font-medium text-slate-300 truncate max-w-[100px]">{dataset.owner.username}</span>
+                        <span className="text-xs font-medium text-slate-700 truncate max-w-[100px]">{dataset.owner.username}</span>
                       </div>
-                      <span className="text-[10px] text-slate-500">{timeAgo(dataset.createdAt)}</span>
+                      <span className="text-[10px] text-slate-400">{timeAgo(dataset.createdAt)}</span>
                     </div>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
+              <div className="text-center py-20 bg-white rounded-2xl border border-slate-200 shadow-xs">
                 <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold text-white mb-2">No datasets found</h3>
-                <p className="text-slate-400">
-                  {query ? `No results for "${query}". Try a different search term.` : 'No datasets available yet. Be the first to upload!'}
+                <h3 className="text-xl font-bold text-slate-900 mb-2">No datasets found</h3>
+                <p className="text-slate-500 max-w-md mx-auto mb-6">
+                  {query ? `No results for "${query}". Try a different search term or clear your filters.` : 'No datasets available yet. Be the first to upload!'}
                 </p>
-                <Link href="/datasets/upload" className="mt-6 inline-block px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all">
+                <Link href="/datasets/upload" className="inline-block px-6 py-2.5 bg-gradient-to-r from-saffron-500 to-orange-600 text-white font-medium rounded-xl hover:from-saffron-600 hover:to-orange-700 transition-all shadow-md">
                   Upload Dataset
                 </Link>
               </div>
@@ -283,12 +283,12 @@ export default async function DatasetsPage({
                 {page > 1 ? (
                   <Link
                     href={`/datasets?q=${query}&category=${currentCategory}&type=${currentType}&sort=${currentSort}&page=${page - 1}`}
-                    className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                    className="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
                   >
                     Previous
                   </Link>
                 ) : (
-                  <button className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                  <button className="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed" disabled>
                     Previous
                   </button>
                 )}
@@ -308,7 +308,7 @@ export default async function DatasetsPage({
                     <Link
                       key={pageNum}
                       href={`/datasets?q=${query}&category=${currentCategory}&type=${currentType}&sort=${currentSort}&page=${pageNum}`}
-                      className={`w-10 h-10 rounded-lg border flex items-center justify-center font-medium transition-colors ${pageNum === page ? 'bg-cyan-500/20 border-cyan-500/30 text-cyan-400' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                      className={`w-10 h-10 rounded-lg border flex items-center justify-center font-medium transition-colors ${pageNum === page ? 'bg-saffron-500 border-saffron-500 text-white shadow-xs font-bold' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'}`}
                     >
                       {pageNum}
                     </Link>
@@ -316,18 +316,18 @@ export default async function DatasetsPage({
                 })}
 
                 {totalPages > 5 && page < totalPages - 2 && (
-                  <span className="text-slate-500 px-2">...</span>
+                  <span className="text-slate-400 px-2">...</span>
                 )}
 
                 {page < totalPages ? (
                   <Link
                     href={`/datasets?q=${query}&category=${currentCategory}&type=${currentType}&sort=${currentSort}&page=${page + 1}`}
-                    className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                    className="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
                   >
                     Next
                   </Link>
                 ) : (
-                  <button className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                  <button className="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed" disabled>
                     Next
                   </button>
                 )}

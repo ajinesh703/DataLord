@@ -38,9 +38,9 @@ export default function DashboardPage() {
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch('/api/rewards/me');
-      if (res.ok) {
-        const data = await res.json();
+      const res = await fetch('/api/rewards/me', { cache: 'no-store' }).catch(() => null);
+      if (res && res.ok) {
+        const data = await res.json().catch(() => ({}));
         setCoinBalance(data.coins || 0);
         setCheckInStreak(data.checkInStreak || 0);
 
@@ -59,9 +59,9 @@ export default function DashboardPage() {
 
   const fetchMyDatasets = async () => {
     try {
-      const res = await fetch('/api/datasets/my');
-      if (res.ok) {
-        const data = await res.json();
+      const res = await fetch('/api/datasets/my', { cache: 'no-store' }).catch(() => null);
+      if (res && res.ok) {
+        const data = await res.json().catch(() => ({}));
         setDatasets(data.datasets || []);
       }
     } catch (e) {
@@ -108,23 +108,23 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-slate-50 text-slate-900 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-          <h1 className="text-3xl font-bold text-white tracking-tight">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
           <div className="flex items-center gap-3">
             <Link 
               href="/rewards"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 text-amber-300 font-medium rounded-lg transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-saffron-50 border border-saffron-200 hover:bg-saffron-100 text-saffron-700 font-medium rounded-xl transition-all duration-200"
             >
-              <Gift className="w-4 h-4" />
+              <Gift className="w-4 h-4 text-saffron-500" />
               Rewards
             </Link>
             <Link 
               href="/datasets/upload" 
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-400 hover:to-cyan-500 text-white font-medium rounded-lg shadow-lg shadow-teal-500/20 transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-saffron-500 to-orange-600 hover:from-saffron-600 hover:to-orange-700 text-white font-medium rounded-xl shadow-md shadow-saffron-500/20 transition-all duration-200"
             >
               <Upload className="w-4 h-4" />
               Upload Dataset
@@ -134,13 +134,13 @@ export default function DashboardPage() {
 
         {/* Check-in Success Toast */}
         {showCheckInSuccess && (
-          <div className="mb-6 flex items-center gap-3 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl animate-in slide-in-from-top-2 duration-300">
-            <div className="p-2 bg-emerald-500/20 rounded-full">
-              <CalendarCheck className="w-5 h-5 text-emerald-400" />
+          <div className="mb-6 flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl animate-in slide-in-from-top-2 duration-300">
+            <div className="p-2 bg-emerald-100 rounded-full">
+              <CalendarCheck className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <p className="font-semibold text-emerald-300">Daily Check-in Complete! +10 coins 🪙</p>
-              <p className="text-sm text-emerald-400/70">Day {checkInStreak} streak — Keep it up!</p>
+              <p className="font-semibold text-emerald-900">Daily Check-in Complete! +10 coins 🪙</p>
+              <p className="text-sm text-emerald-700">Day {checkInStreak} streak — Keep it up!</p>
             </div>
           </div>
         )}
@@ -148,29 +148,28 @@ export default function DashboardPage() {
         {/* Stats Overview */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
           {/* Coin Balance Card */}
-          <div className="bg-gradient-to-br from-amber-950/50 to-yellow-950/30 rounded-xl p-6 border border-amber-500/20 relative overflow-hidden group sm:col-span-2 lg:col-span-1">
-            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-100"></div>
-            <div className="absolute top-2 right-2 opacity-10 text-6xl">🪙</div>
+          <div className="bg-gradient-to-br from-saffron-500 to-orange-600 text-white rounded-xl p-6 shadow-lg shadow-saffron-500/15 relative overflow-hidden group sm:col-span-2 lg:col-span-1">
+            <div className="absolute top-2 right-2 opacity-20 text-6xl">🪙</div>
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-amber-500/10 rounded-lg text-amber-400">
+              <div className="p-3 bg-white/20 rounded-lg text-white">
                 <Coins className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-sm font-medium text-amber-400/70">Coin Balance</p>
-                <p className="text-2xl font-bold text-amber-300">{formatNumber(coinBalance)}</p>
+                <p className="text-sm font-medium text-saffron-100">Coin Balance</p>
+                <p className="text-2xl font-bold text-white">{formatNumber(coinBalance)}</p>
               </div>
             </div>
             <div className="mt-4 flex items-center gap-2">
               {canCheckIn ? (
                 <button
                   onClick={handleCheckIn}
-                  className="w-full text-xs font-semibold px-3 py-2 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/30 transition-all flex items-center justify-center gap-1.5"
+                  className="w-full text-xs font-semibold px-3 py-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-all flex items-center justify-center gap-1.5"
                 >
                   <CalendarCheck className="w-3.5 h-3.5" />
                   Daily Check-in (+10)
                 </button>
               ) : (
-                <div className="w-full text-xs font-medium px-3 py-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-center flex items-center justify-center gap-1.5">
+                <div className="w-full text-xs font-medium px-3 py-2 rounded-lg bg-white/20 text-white text-center flex items-center justify-center gap-1.5">
                   <CalendarCheck className="w-3.5 h-3.5" />
                   Checked in today ✓
                 </div>
@@ -178,98 +177,94 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-slate-900 rounded-xl p-6 border border-white/10 relative overflow-hidden group">
-            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative overflow-hidden group">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-teal-500/10 rounded-lg text-teal-400"><Database className="w-6 h-6" /></div>
+              <div className="p-3 bg-saffron-50 rounded-lg text-saffron-600"><Database className="w-6 h-6" /></div>
               <div>
-                <p className="text-sm font-medium text-slate-400">Total Datasets</p>
-                <p className="text-2xl font-bold text-white">{isLoading ? '—' : totalDatasets}</p>
+                <p className="text-sm font-medium text-slate-500">Total Datasets</p>
+                <p className="text-2xl font-bold text-slate-900">{isLoading ? '—' : totalDatasets}</p>
               </div>
             </div>
           </div>
-          <div className="bg-slate-900 rounded-xl p-6 border border-white/10 relative overflow-hidden group">
-            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative overflow-hidden group">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-indigo-500/10 rounded-lg text-indigo-400"><Download className="w-6 h-6" /></div>
+              <div className="p-3 bg-orange-50 rounded-lg text-orange-600"><Download className="w-6 h-6" /></div>
               <div>
-                <p className="text-sm font-medium text-slate-400">Total Downloads</p>
-                <p className="text-2xl font-bold text-white">{isLoading ? '—' : formatNumber(totalDownloads)}</p>
+                <p className="text-sm font-medium text-slate-500">Total Downloads</p>
+                <p className="text-2xl font-bold text-slate-900">{isLoading ? '—' : formatNumber(totalDownloads)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-slate-900 rounded-xl p-6 border border-white/10 relative overflow-hidden group">
-            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative overflow-hidden group">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-purple-500/10 rounded-lg text-purple-400"><Eye className="w-6 h-6" /></div>
+              <div className="p-3 bg-amber-50 rounded-lg text-amber-600"><Eye className="w-6 h-6" /></div>
               <div>
-                <p className="text-sm font-medium text-slate-400">Total Views</p>
-                <p className="text-2xl font-bold text-white">{isLoading ? '—' : formatNumber(totalViews)}</p>
+                <p className="text-sm font-medium text-slate-500">Total Views</p>
+                <p className="text-2xl font-bold text-slate-900">{isLoading ? '—' : formatNumber(totalViews)}</p>
               </div>
             </div>
           </div>
-          <div className="bg-slate-900 rounded-xl p-6 border border-white/10 relative overflow-hidden group">
-            <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative overflow-hidden group">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-pink-500/10 rounded-lg text-pink-400"><Heart className="w-6 h-6" /></div>
+              <div className="p-3 bg-red-50 rounded-lg text-red-600"><Heart className="w-6 h-6" /></div>
               <div>
-                <p className="text-sm font-medium text-slate-400">Total Votes</p>
-                <p className="text-2xl font-bold text-white">{isLoading ? '—' : formatNumber(totalVotes)}</p>
+                <p className="text-sm font-medium text-slate-500">Total Votes</p>
+                <p className="text-2xl font-bold text-slate-900">{isLoading ? '—' : formatNumber(totalVotes)}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* My Datasets Table */}
-        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+        <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-900">
           My Datasets
         </h2>
         
-        <div className="bg-slate-900 rounded-xl border border-white/10 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-slate-950/50 text-slate-400 border-b border-white/10 uppercase tracking-wider text-xs">
+              <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase tracking-wider text-xs font-semibold">
                 <tr>
-                  <th className="px-6 py-4 font-medium">Title</th>
-                  <th className="px-6 py-4 font-medium">Type</th>
-                  <th className="px-6 py-4 font-medium">Downloads</th>
-                  <th className="px-6 py-4 font-medium">Views</th>
-                  <th className="px-6 py-4 font-medium">Votes</th>
-                  <th className="px-6 py-4 font-medium">Date</th>
-                  <th className="px-6 py-4 font-medium text-right">Actions</th>
+                  <th className="px-6 py-4">Title</th>
+                  <th className="px-6 py-4">Type</th>
+                  <th className="px-6 py-4">Downloads</th>
+                  <th className="px-6 py-4">Views</th>
+                  <th className="px-6 py-4">Votes</th>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-slate-100">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
                       Loading your datasets...
                     </td>
                   </tr>
                 ) : datasets.length > 0 ? (
                   datasets.map(dataset => (
-                    <tr key={dataset.id} className="hover:bg-slate-800/50 transition-colors">
+                    <tr key={dataset.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4">
-                        <Link href={`/datasets/${dataset.slug}`} className="font-medium text-slate-200 hover:text-teal-400 transition-colors block truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+                        <Link href={`/datasets/${dataset.slug}`} className="font-semibold text-slate-800 hover:text-saffron-600 transition-colors block truncate max-w-[200px] sm:max-w-xs md:max-w-md">
                           {dataset.title}
                         </Link>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider font-semibold border bg-teal-500/10 text-teal-400 border-teal-500/20">
+                        <span className="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider font-bold bg-saffron-100 text-saffron-800 border border-saffron-200">
                           {dataset.fileType || 'FILE'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-slate-300 font-medium">{formatNumber(dataset.downloadCount)}</td>
-                      <td className="px-6 py-4 text-slate-300 font-medium">{formatNumber(dataset.viewCount)}</td>
-                      <td className="px-6 py-4 text-slate-300 font-medium">{formatNumber(dataset.voteCount)}</td>
-                      <td className="px-6 py-4 text-slate-400">{format(new Date(dataset.createdAt), 'MMM d, yyyy')}</td>
+                      <td className="px-6 py-4 text-slate-700 font-medium">{formatNumber(dataset.downloadCount)}</td>
+                      <td className="px-6 py-4 text-slate-700 font-medium">{formatNumber(dataset.viewCount)}</td>
+                      <td className="px-6 py-4 text-slate-700 font-medium">{formatNumber(dataset.voteCount)}</td>
+                      <td className="px-6 py-4 text-slate-500">{format(new Date(dataset.createdAt), 'MMM d, yyyy')}</td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Link href={`/datasets/${dataset.slug}/edit`} className="p-2 text-slate-400 hover:text-teal-400 hover:bg-slate-800 rounded-md transition-colors border border-transparent hover:border-slate-700">
+                          <Link href={`/datasets/${dataset.slug}/edit`} className="p-2 text-slate-500 hover:text-saffron-600 hover:bg-slate-100 rounded-md transition-colors">
                             <Edit className="w-4 h-4" />
                             <span className="sr-only">Edit</span>
                           </Link>
-                          <button onClick={() => handleDelete(dataset.id)} className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-md transition-colors border border-transparent hover:border-rose-500/20">
+                          <button onClick={() => handleDelete(dataset.id)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors">
                             <Trash2 className="w-4 h-4" />
                             <span className="sr-only">Delete</span>
                           </button>
@@ -279,7 +274,7 @@ export default function DashboardPage() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                    <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
                       No datasets found. Start by uploading one!
                     </td>
                   </tr>

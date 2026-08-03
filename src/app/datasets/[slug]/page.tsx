@@ -85,7 +85,7 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
   const getInitials = (name: string) => name.charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-slate-50 text-slate-700 font-sans selection:bg-saffron-500/20">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           
@@ -94,16 +94,16 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
             
             {/* Header Section */}
             <div className="space-y-4">
-              <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+              <h1 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight leading-tight">
                 {mockDataset.title}
               </h1>
               
-              <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+              <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-saffron-400 to-orange-500 flex items-center justify-center text-white font-semibold">
                     {getInitials(mockDataset.owner.name)}
                   </div>
-                  <Link href={`/users/${mockDataset.owner.username}`} className="text-slate-300 hover:text-cyan-400 font-medium transition-colors">
+                  <Link href={`/users/${mockDataset.owner.username}`} className="text-slate-700 hover:text-saffron-600 font-medium transition-colors">
                     {mockDataset.owner.name}
                   </Link>
                 </div>
@@ -116,7 +116,7 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
 
               <div className="flex flex-wrap gap-2 pt-2">
                 {mockDataset.tags.map(tag => (
-                  <span key={tag} className="px-3 py-1 text-xs font-medium bg-slate-900 border border-slate-700 rounded-full text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.05)] hover:border-cyan-500/50 transition-colors cursor-pointer">
+                  <span key={tag} className="px-3 py-1 text-xs font-medium bg-saffron-50 border border-saffron-200 rounded-full text-saffron-700 hover:border-saffron-300 transition-colors cursor-pointer">
                     #{tag}
                   </span>
                 ))}
@@ -124,7 +124,7 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-slate-800">
+            <div className="border-b border-slate-200">
               <nav className="flex space-x-8" aria-label="Tabs">
                 {[
                   { id: 'overview', label: 'Overview', icon: FileText },
@@ -136,13 +136,13 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
                     onClick={() => setActiveTab(tab.id as any)}
                     className={`
                       relative py-4 px-1 flex items-center gap-2 text-sm font-medium transition-colors duration-200
-                      ${activeTab === tab.id ? 'text-cyan-400' : 'text-slate-400 hover:text-slate-200'}
+                      ${activeTab === tab.id ? 'text-saffron-600' : 'text-slate-500 hover:text-slate-900'}
                     `}
                   >
                     <tab.icon className="w-4 h-4" />
                     {tab.label}
                     {activeTab === tab.id && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-t-full shadow-[0_-2px_10px_rgba(34,211,238,0.5)]"></span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-saffron-500 to-orange-500 rounded-t-full"></span>
                     )}
                   </button>
                 ))}
@@ -154,33 +154,33 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
               {/* OVERVIEW TAB */}
               {activeTab === 'overview' && (
                 <div className="space-y-8 animate-in fade-in duration-300">
-                  <div className="prose prose-invert prose-slate max-w-none text-slate-300">
+                  <div className="prose prose-slate max-w-none text-slate-700">
                     {mockDataset.description.split('\n').map((paragraph, idx) => (
                       <p key={idx} className="leading-relaxed whitespace-pre-wrap">{paragraph}</p>
                     ))}
                   </div>
 
-                  <h3 className="text-xl font-semibold text-white mt-10 mb-4 border-b border-slate-800 pb-2">Metadata</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 mt-10 mb-4 border-b border-slate-200 pb-2">Metadata</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 hover:border-slate-700 transition-colors">
-                      <Scale className="w-5 h-5 text-cyan-400 mb-2" />
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-300 shadow-xs transition-colors">
+                      <Scale className="w-5 h-5 text-saffron-600 mb-2" />
                       <div className="text-xs text-slate-500 mb-1">License</div>
-                      <div className="font-medium text-slate-200">{mockDataset.license}</div>
+                      <div className="font-medium text-slate-900">{mockDataset.license}</div>
                     </div>
-                    <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 hover:border-slate-700 transition-colors">
-                      <TagIcon className="w-5 h-5 text-blue-400 mb-2" />
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-300 shadow-xs transition-colors">
+                      <TagIcon className="w-5 h-5 text-saffron-600 mb-2" />
                       <div className="text-xs text-slate-500 mb-1">Category</div>
-                      <div className="font-medium text-slate-200">{mockDataset.category}</div>
+                      <div className="font-medium text-slate-900">{mockDataset.category}</div>
                     </div>
-                    <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 hover:border-slate-700 transition-colors">
-                      <FileBox className="w-5 h-5 text-indigo-400 mb-2" />
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-300 shadow-xs transition-colors">
+                      <FileBox className="w-5 h-5 text-saffron-600 mb-2" />
                       <div className="text-xs text-slate-500 mb-1">File Type</div>
-                      <div className="font-medium text-slate-200">{mockDataset.fileType}</div>
+                      <div className="font-medium text-slate-900">{mockDataset.fileType}</div>
                     </div>
-                    <div className="bg-slate-900/50 border border-slate-800/80 rounded-xl p-4 hover:border-slate-700 transition-colors">
-                      <Database className="w-5 h-5 text-purple-400 mb-2" />
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-300 shadow-xs transition-colors">
+                      <Database className="w-5 h-5 text-saffron-600 mb-2" />
                       <div className="text-xs text-slate-500 mb-1">Size</div>
-                      <div className="font-medium text-slate-200">{formatBytes(mockDataset.fileSize)}</div>
+                      <div className="font-medium text-slate-900">{formatBytes(mockDataset.fileSize)}</div>
                     </div>
                   </div>
                 </div>
@@ -190,27 +190,27 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
               {activeTab === 'preview' && (
                 <div className="space-y-4 animate-in fade-in duration-300">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-400 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+                    <span className="text-slate-600 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
                       Showing 10 of {mockPreviewData.totalRows.toLocaleString()} rows
                     </span>
                   </div>
                   
-                  <div className="overflow-x-auto rounded-xl border border-slate-800 bg-white/[0.02] shadow-xl">
+                  <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="bg-slate-800/50 border-b border-slate-700">
+                        <tr className="bg-slate-50 border-b border-slate-200">
                           {mockPreviewData.headers.map((header, i) => (
-                            <th key={i} className="px-4 py-3 text-xs font-semibold text-slate-300 uppercase tracking-wider whitespace-nowrap">
+                            <th key={i} className="px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wider whitespace-nowrap">
                               {header}
                             </th>
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-800/50 font-mono text-sm">
+                      <tbody className="divide-y divide-slate-100 font-mono text-sm">
                         {mockPreviewData.rows.map((row, i) => (
-                          <tr key={i} className="hover:bg-slate-800/30 transition-colors">
+                          <tr key={i} className="hover:bg-slate-50 transition-colors">
                             {row.map((cell, j) => (
-                              <td key={j} className="px-4 py-3 text-slate-400 whitespace-nowrap">
+                              <td key={j} className="px-4 py-3 text-slate-600 whitespace-nowrap">
                                 {cell}
                               </td>
                             ))}
@@ -225,15 +225,15 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
               {/* COMMENTS TAB */}
               {activeTab === 'comments' && (
                 <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
                     <textarea 
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       placeholder="Add a comment..." 
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none min-h-[100px]"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-saffron-500 focus:ring-1 focus:ring-saffron-500 transition-all resize-none min-h-[100px]"
                     />
                     <div className="flex justify-end mt-3">
-                      <button className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-5 py-2 rounded-lg text-sm font-medium transition-all shadow-lg shadow-cyan-900/20 active:scale-95">
+                      <button className="bg-gradient-to-r from-saffron-500 to-orange-600 hover:from-saffron-600 hover:to-orange-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition-all shadow-sm shadow-saffron-500/20 active:scale-95">
                         Post Comment
                       </button>
                     </div>
@@ -241,21 +241,21 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
 
                   <div className="space-y-4">
                     {mockComments.map(comment => (
-                      <div key={comment.id} className="flex gap-4 p-4 rounded-xl border border-slate-800/50 bg-slate-900/30">
-                        <div className="w-10 h-10 shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-semibold border border-slate-700">
+                      <div key={comment.id} className="flex gap-4 p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                        <div className="w-10 h-10 shrink-0 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 font-semibold border border-slate-200">
                           {getInitials(comment.user.name)}
                         </div>
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-slate-200">{comment.user.name}</span>
+                              <span className="font-medium text-slate-900">{comment.user.name}</span>
                               <span className="text-xs text-slate-500">@{comment.user.username}</span>
                             </div>
                             <span className="text-xs text-slate-500">
                               {formatDistanceToNow(new Date(comment.createdAt))} ago
                             </span>
                           </div>
-                          <p className="text-sm text-slate-300 leading-relaxed">
+                          <p className="text-sm text-slate-700 leading-relaxed">
                             {comment.content}
                           </p>
                         </div>
@@ -271,73 +271,73 @@ export default function DatasetDetailPage({ params }: { params: { slug: string }
           <div className="w-full lg:w-[30%] space-y-6">
             
             {/* Download Card */}
-            <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-saffron-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <button className="w-full relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all duration-300 flex items-center justify-center gap-2 group/btn active:scale-[0.98]">
+              <button className="w-full relative overflow-hidden bg-gradient-to-r from-saffron-500 to-orange-600 hover:from-saffron-600 hover:to-orange-700 text-white font-bold py-4 rounded-xl shadow-md shadow-saffron-500/20 hover:shadow-lg hover:shadow-saffron-500/30 transition-all duration-300 flex items-center justify-center gap-2 group/btn active:scale-[0.98]">
                 <Download className="w-5 h-5 group-hover/btn:animate-bounce" />
                 Download Dataset
               </button>
               
               <div className="mt-6 space-y-3 text-sm">
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-slate-500">
                   <span className="flex items-center gap-2"><FileBox className="w-4 h-4"/> Format</span>
-                  <span className="font-medium text-slate-200">{mockDataset.fileType}</span>
+                  <span className="font-medium text-slate-900">{mockDataset.fileType}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-slate-500">
                   <span className="flex items-center gap-2"><Database className="w-4 h-4"/> Size</span>
-                  <span className="font-medium text-slate-200">{formatBytes(mockDataset.fileSize)}</span>
+                  <span className="font-medium text-slate-900">{formatBytes(mockDataset.fileSize)}</span>
                 </div>
-                <div className="flex justify-between items-center text-slate-400">
+                <div className="flex justify-between items-center text-slate-500">
                   <span className="flex items-center gap-2"><Scale className="w-4 h-4"/> License</span>
-                  <span className="font-medium text-slate-200">{mockDataset.license}</span>
+                  <span className="font-medium text-slate-900">{mockDataset.license}</span>
                 </div>
               </div>
             </div>
 
             {/* Stats Card */}
             <div className="grid grid-cols-3 gap-2">
-              <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+              <div className="bg-white border border-slate-200 shadow-xs rounded-xl p-3 flex flex-col items-center justify-center text-center">
                 <Eye className="w-5 h-5 text-slate-400 mb-1" />
-                <div className="text-lg font-semibold text-slate-200">{mockDataset.viewCount.toLocaleString()}</div>
+                <div className="text-lg font-semibold text-slate-900">{mockDataset.viewCount.toLocaleString()}</div>
                 <div className="text-[10px] text-slate-500 uppercase tracking-wider">Views</div>
               </div>
-              <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+              <div className="bg-white border border-slate-200 shadow-xs rounded-xl p-3 flex flex-col items-center justify-center text-center">
                 <Download className="w-5 h-5 text-slate-400 mb-1" />
-                <div className="text-lg font-semibold text-slate-200">{mockDataset.downloadCount.toLocaleString()}</div>
+                <div className="text-lg font-semibold text-slate-900">{mockDataset.downloadCount.toLocaleString()}</div>
                 <div className="text-[10px] text-slate-500 uppercase tracking-wider">Downloads</div>
               </div>
               <button 
                 onClick={handleVote}
-                className={`bg-slate-900/50 border rounded-xl p-3 flex flex-col items-center justify-center text-center transition-all ${
-                  hasVoted ? 'border-pink-500/50 bg-pink-500/5' : 'border-slate-800 hover:border-slate-700'
+                className={`bg-white shadow-xs border rounded-xl p-3 flex flex-col items-center justify-center text-center transition-all ${
+                  hasVoted ? 'border-pink-300 bg-pink-50' : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <Heart className={`w-5 h-5 mb-1 transition-colors ${hasVoted ? 'text-pink-500 fill-pink-500' : 'text-slate-400'}`} />
-                <div className={`text-lg font-semibold ${hasVoted ? 'text-pink-400' : 'text-slate-200'}`}>{voteCount}</div>
+                <div className={`text-lg font-semibold ${hasVoted ? 'text-pink-600' : 'text-slate-900'}`}>{voteCount}</div>
                 <div className="text-[10px] text-slate-500 uppercase tracking-wider">Votes</div>
               </button>
             </div>
 
             {/* Share / Actions */}
             <div className="flex gap-2">
-              <button className="flex-1 bg-slate-900/50 border border-slate-800 hover:bg-slate-800 text-slate-300 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+              <button className="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 shadow-xs py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
                 <Share2 className="w-4 h-4" /> Share
               </button>
-              <button className="w-11 bg-slate-900/50 border border-slate-800 hover:bg-slate-800 text-slate-300 rounded-xl flex items-center justify-center transition-colors">
+              <button className="w-11 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 shadow-xs rounded-xl flex items-center justify-center transition-colors">
                 <MoreVertical className="w-4 h-4" />
               </button>
             </div>
 
             {/* Owner Card */}
-            <div className="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-5 hover:bg-slate-900/50 transition-colors">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5 hover:bg-slate-50 shadow-sm transition-colors">
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Dataset Provider</h4>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-200 text-lg font-bold border-2 border-slate-700">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-saffron-400 to-orange-500 flex items-center justify-center text-white text-lg font-bold border-2 border-orange-200">
                   {getInitials(mockDataset.owner.name)}
                 </div>
                 <div>
-                  <Link href={`/users/${mockDataset.owner.username}`} className="font-medium text-slate-200 hover:text-cyan-400 transition-colors block">
+                  <Link href={`/users/${mockDataset.owner.username}`} className="font-medium text-slate-900 hover:text-saffron-600 transition-colors block">
                     {mockDataset.owner.name}
                   </Link>
                   <span className="text-sm text-slate-500">@{mockDataset.owner.username}</span>
